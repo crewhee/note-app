@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Notes{% endblock %}</h1>
+  <a class="action" href="{{ url_for('note.create') }}">Create note</a>
+{% endblock %}
+
+{% block content %}
+  {% for note in notes %}
+    <article class="post">
+      <header>
+        <div>
+          <h2>
+            <div class="about">Note {{note['id']}}, created {{ note['created'].strftime('%Y-%m-%d %H:%M') }}, modified {{ note['modified'].strftime('%Y-%m-%d %H:%M') }} </div>
+          </h2>
+        </div>
+          <a class="action" href="{{ url_for('note.edit', id=note['id']) }}">Edit</a>
+          <a class="action" href="{{ url_for('note.get_history', id=note['id']) }}">History</a>
+      </header>
+      <p class="body">{{ note['body'] }}</p>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
